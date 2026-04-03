@@ -1,12 +1,12 @@
-const User = require('../models/User');
-const jwt = require('jsonwebtoken');
+import User from '../models/User.js';
+import jwt from 'jsonwebtoken';
 
 // 🔥 random password generator
 function generatePassword(length = 6) {
     return Math.random().toString(36).slice(-length);
 }
 
-exports.create_user = async (req, res) => {
+export const create_user = async (req, res) => {
     console.log("req.body", req.body);
 
     try {
@@ -33,13 +33,7 @@ exports.create_user = async (req, res) => {
         // 🔐 generate password
         const rawPassword = generatePassword(6);
 
-        // 🔑 generate token
-        const payload = {
-            mobile: body.mobile,
-            email: body.email
-        };
-
-        const token = jwt.sign(payload, process.env.JWT_SECRET);
+       
 
         // 👤 create user
         const newUser = new User({
@@ -47,7 +41,7 @@ exports.create_user = async (req, res) => {
             password: rawPassword,
             status: "0",
             loginStatus: "0",
-            token: token,
+            
             createdOn: Date.now().toString(),
             updatedOn: Date.now().toString(),
             joiningDate: Date.now().toString()

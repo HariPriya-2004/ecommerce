@@ -1,11 +1,13 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
+// 🔁 update history
 const updateSchema = new Schema({
     updatedBy: { type: String },
     updatedTime: { type: String }
 });
 
+// 👤 main user schema
 const userSchema = new Schema({
     firstname: { type: String, required: true, trim: true },
     lastname: { type: String, required: true, trim: true },
@@ -20,11 +22,17 @@ const userSchema = new Schema({
     profilepic: { type: String, default: null },
     email: { type: String, default: null },
 
-    token: { type: String, default: null }, // ✅ needed as per reference
+    token: { type: String, default: null },
 
     createdBy: { type: String, default: null },
 
-    status: { type: String, default: "0" }, // ✅ important
+   
+    addedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
+    adminId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
+    serviceCenterId: { type: String, default: null },
+    agentId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
+
+    status: { type: String, default: "0" },
     loginStatus: { type: String, default: "0" },
 
     updatedOn: { type: String, default: null },
@@ -42,4 +50,4 @@ const userSchema = new Schema({
 
 });
 
-module.exports = mongoose.model('User', userSchema);
+export default mongoose.model('User', userSchema);
